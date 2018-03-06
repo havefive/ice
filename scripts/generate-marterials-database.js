@@ -55,6 +55,10 @@ function generateBlocks(files, SPACE) {
       useComponents,
     };
 
+    if (pkg.blockConfig.thumbnail) {
+      payload.thumbnail = pkg.blockConfig.thumbnail;
+    }
+
     if (pkg.blockConfig.sketchURL) {
       payload.sketchURL = pkg.blockConfig.sketchURL;
     }
@@ -69,7 +73,7 @@ function generateBlocks(files, SPACE) {
   return result;
 }
 
-function generateScaffords(files, SPACE) {
+function generateScaffolds(files, SPACE) {
   return files.map((pkgPath) => {
     const pkg = JSON.parse(fs.readFileSync(path.join(SPACE, pkgPath)));
     const dependencies = pkg.dependencies || {};
@@ -82,10 +86,11 @@ function generateScaffords(files, SPACE) {
     }
 
     return {
-      ...pkg.scaffordConfig,
+      ...pkg.scaffoldConfig,
       npm: pkg.name,
       description: pkg.description,
       version: pkg.version,
+      homepage: pkg.homepage || '',
       layouts: generatorJson.layouts || [],
       dependencies,
       devDependencies,
@@ -119,11 +124,11 @@ function gatherBlocksOrLayouts(pattern, SPACE) {
 }
 
 /**
- * 生成 scaffords 信息
+ * 生成 scaffolds 信息
  * @param {*} pattern
  * @param {*} SPACE
  */
-function gatherScaffords(pattern, SPACE) {
+function gatherScaffolds(pattern, SPACE) {
   return new Promise((resolve, reject) => {
     glob(
       pattern,
@@ -136,7 +141,7 @@ function gatherScaffords(pattern, SPACE) {
           console.log('err:', err);
           reject(err);
         } else {
-          resolve(generateScaffords(files, SPACE));
+          resolve(generateScaffolds(files, SPACE));
         }
       }
     );
@@ -175,36 +180,36 @@ function main() {
       return Promise.all([
         gatherBlocksOrLayouts('blocks/*/package.json', space),
         gatherBlocksOrLayouts('layouts/*/package.json', space),
-        gatherScaffords('scaffords/*/package.json', space),
+        gatherScaffolds('scaffolds/*/package.json', space),
       ]);
     })
-    .then(([blocks, layouts, scaffords]) => {
+    .then(([blocks, layouts, scaffolds]) => {
       // 补充字段
       return Promise.all([
         Promise.all(blocks.map(appendFieldFromNpm)),
         Promise.all(layouts.map(appendFieldFromNpm)),
-        Promise.all(scaffords.map(appendFieldFromNpm)),
+        Promise.all(scaffolds.map(appendFieldFromNpm)),
       ]);
     })
-    .then(([blocks, layouts, scaffords]) => {
+    .then(([blocks, layouts, scaffolds]) => {
       const distDir = path.resolve(__dirname, '../databases');
       mkdirp.sync(distDir);
-      fs.writeFileSync(
-        path.join(distDir, 'blocks.db.json'),
-        JSON.stringify(blocks, null, 2) + '\n'
-      );
+      const blocksDest = path.join(distDir, 'blocks.db.json');
+      const layoutsDest = path.join(distDir, 'layouts.db.json');
+      const scaffoldsDest = path.join(distDir, 'scaffolds.db.json');
+      fs.writeFileSync(blocksDest, JSON.stringify(blocks, null, 2) + '\n');
+
+      fs.writeFileSync(layoutsDest, JSON.stringify(layouts, null, 2) + '\n');
 
       fs.writeFileSync(
-        path.join(distDir, 'layouts.db.json'),
-        JSON.stringify(layouts, null, 2) + '\n'
+        scaffoldsDest,
+        JSON.stringify(scaffolds, null, 2) + '\n'
       );
 
-      fs.writeFileSync(
-        path.join(distDir, 'scaffords.db.json'),
-        JSON.stringify(scaffords, null, 2) + '\n'
-      );
-
-      console.log('Database generated.');
+      console.log('物料数据生成完毕. Marterials DB Generated.');
+      console.log(blocksDest);
+      console.log(layoutsDest);
+      console.log(scaffoldsDest);
     })
     .catch((err) => {
       console.log('caught error:\n', err.message);
