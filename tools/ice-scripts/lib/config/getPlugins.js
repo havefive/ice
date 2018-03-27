@@ -1,14 +1,47 @@
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const fs = require('fs');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 const WebpackPluginImport = require('webpack-plugin-import');
 const AppendStyleWebpackPlugin = require('../plugins/append-style-webpack-plugin');
 const normalizeEntry = require('../utils/normalizeEntry');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = function (paths, options = {}) {
+module.exports = function(paths, options = {}, themeConfig = {}) {
+  const defineVriables = {
+    'process.env.NODE_ENV': JSON.stringify(
+      process.env.NODE_ENV || 'development'
+    ),
+  };
+
+  // support theme type, eg. dark or light
+  if (themeConfig && typeof themeConfig.theme === 'string') {
+    defineVriables.THEME = JSON.stringify(themeConfig.theme);
+  }
+
   const plugins = [
+    // Generates an `index.html` file with the <script> injected.
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+      minify: false,
+      // minify: {
+      //   removeComments: true,
+      //   collapseWhitespace: true,
+      //   removeRedundantAttributes: true,
+      //   useShortDoctype: true,
+      //   removeEmptyAttributes: true,
+      //   removeStyleLinkTypeAttributes: true,
+      //   keepClosingSlash: true,
+      //   minifyJS: true,
+      //   minifyCSS: true,
+      //   minifyURLs: true,
+      // },
+    }),
+    new webpack.DefinePlugin(defineVriables),
+
     new ExtractTextPlugin({
       filename: '[name].css',
       disable: false,
@@ -54,7 +87,7 @@ module.exports = function (paths, options = {}) {
       type: 'sass',
       srcFile: iconScssPath,
       variableFile: variableFilePath,
-      distMatch: function (chunkName, compilerEntry, compilationPreparedChunks) {
+      distMatch: function(chunkName, compilerEntry, compilationPreparedChunks) {
         const entriesAndPreparedChunkNames = normalizeEntry(
           compilerEntry,
           compilationPreparedChunks

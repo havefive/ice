@@ -74,20 +74,24 @@ export default class TabTable extends Component {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
+        width: 200,
       },
       {
         title: '缩写名',
         dataIndex: 'shortName',
         key: 'shortName',
+        width: 200,
       },
       {
         title: '文章数',
         dataIndex: 'articleNum',
         key: 'articleNum',
+        width: 200,
       },
       {
         title: '操作',
         key: 'action',
+        width: 150,
         render: (value, index, record) => {
           return (
             <span>
@@ -116,7 +120,7 @@ export default class TabTable extends Component {
 
   handleRemove = (value, index) => {
     const { dataSource } = this.state;
-    dataSource.splice(index, index + 1);
+    dataSource.splice(index, 1);
     this.setState({
       dataSource,
     });

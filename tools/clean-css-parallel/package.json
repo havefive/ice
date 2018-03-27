@@ -1,6 +1,6 @@
 {
   "name": "clean-css-parallel",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "使用 clean-css 多进程压缩 css 文件",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,9 @@
     "pretty-bytes": "^4.0.2",
     "pretty-ms": "^3.1.0",
     "right-pad": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.com"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@icedesign/sortable-table-block",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "",
   "files": [
     "src/",
@@ -30,7 +30,7 @@
     "prepublish": "ice block build"
   },
   "dependencies": {
-    "@icedesign/base": "^0.1.0",
+    "@icedesign/base": "^0.2.0",
     "@icedesign/container": "^0.1.2",
     "prop-types": "^15.5.8"
   },

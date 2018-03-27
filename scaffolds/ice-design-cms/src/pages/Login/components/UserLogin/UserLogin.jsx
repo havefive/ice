@@ -1,5 +1,6 @@
 /* eslint react/no-string-refs:0 */
 import React, { Component } from 'react';
+import { hashHistory } from 'react-router';
 import { Input, Button, Checkbox, Grid } from '@icedesign/base';
 import {
   FormBinderWrapper as IceFormBinderWrapper,
@@ -47,7 +48,8 @@ export default class UserLogin extends Component {
         return;
       }
       console.log('values:', values);
-      this.props.push('/');
+      console.log(this.props);
+      hashHistory.push('/');
     });
   };
 
@@ -60,8 +62,8 @@ export default class UserLogin extends Component {
             backgroundImage: `url(${backgroundImage})`,
           }}
         />
-        <div style={styles.contentWrapper}>
-          <h2 style={styles.slogan}>
+        <div style={styles.contentWrapper} className="content-wrapper">
+          <h2 style={styles.slogan} className="slogan">
             欢迎使用 <br /> ICE 内容管理系统
           </h2>
           <div style={styles.formContainer}>
@@ -95,12 +97,12 @@ export default class UserLogin extends Component {
                       size="small"
                       style={styles.inputIcon}
                     />
-                    <IceFormBinder name="password">
+                    <IceFormBinder name="password" required message="必填">
                       <Input htmlType="password" placeholder="密码" />
                     </IceFormBinder>
                   </Col>
                   <Col>
-                    <IceFormError name="account" />
+                    <IceFormError name="password" />
                   </Col>
                 </Row>
 
@@ -153,25 +155,6 @@ const styles = {
     bottom: 0,
     backgroundSize: 'cover',
   },
-  contentWrapper: {
-    position: 'absolute',
-    top: '-100px',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    maxWidth: '1080px',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  slogan: {
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: '36px',
-    letterSpacing: '2px',
-    lineHeight: '48px',
-  },
   formContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -194,7 +177,7 @@ const styles = {
   },
   inputIcon: {
     position: 'absolute',
-    left: '18px',
+    left: '0px',
     top: '3px',
     color: '#999',
   },

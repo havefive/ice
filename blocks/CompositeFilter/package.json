@@ -1,6 +1,6 @@
 {
   "name": "@icedesign/composite-filter-block",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "标签、日期和搜索组合筛选",
   "main": "lib/index.js",
   "files": [
@@ -23,8 +23,9 @@
     "ice-block"
   ],
   "dependencies": {
-    "@icedesign/base": "^0.1.0",
+    "@icedesign/base": "^0.2.0",
     "@icedesign/container": "^0.1.0",
+    "enquire-js": "^0.1.2",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {

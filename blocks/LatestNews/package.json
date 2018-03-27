@@ -1,6 +1,6 @@
 {
   "name": "@icedesign/latest-news-block",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "",
   "files": [
     "src/",
@@ -30,12 +30,12 @@
     "prepublish": "ice block build"
   },
   "dependencies": {
-    "@icedesign/base": "^0.1.0",
+    "@icedesign/base": "^0.2.0",
     "@icedesign/container": "^0.1.2",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {
-    "@icedesign/demo-layout": "^0.1.2",
+    "@icedesign/demo-layout": "^0.1.7",
     "@icedesign/scripts": "^0.1.9",
     "@icedesign/skin": "latest",
     "react": "*",

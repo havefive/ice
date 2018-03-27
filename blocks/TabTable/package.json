@@ -1,6 +1,6 @@
 {
   "name": "@icedesign/tab-table-block",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "description": "",
   "files": [
     "src/",
@@ -30,7 +30,7 @@
     "prepublish": "ice block build"
   },
   "dependencies": {
-    "@icedesign/base": "^0.1.0",
+    "@icedesign/base": "^0.2.0",
     "@icedesign/container": "^0.1.2",
     "axios": "^0.17.1",
     "prop-types": "^15.5.8"
